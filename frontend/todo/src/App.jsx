@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/todos")
+      .get("https://todo-list-mk9g.onrender.com/todos")
       .then((response) => setTodos(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -37,7 +37,11 @@ const App = () => {
   const addTodo = () => {
     if (!text.trim() || !category.trim()) return;
     axios
-      .post("http://localhost:8000/todos", { text, category, priority })
+      .post("https://todo-list-mk9g.onrender.com/todos", {
+        text,
+        category,
+        priority,
+      })
       .then((response) => {
         setTodos([...todos, response.data]);
         setText("");
@@ -49,7 +53,9 @@ const App = () => {
 
   const toggleComplete = (id, completed) => {
     axios
-      .patch(`http://localhost:8000/todos/${id}`, { completed: !completed })
+      .patch(`https://todo-list-mk9g.onrender.com/todos/${id}`, {
+        completed: !completed,
+      })
       .then((response) => {
         setTodos(todos.map((todo) => (todo._id === id ? response.data : todo)));
       })
@@ -58,14 +64,14 @@ const App = () => {
 
   const deleteTodo = (id) => {
     axios
-      .delete(`http://localhost:8000/todos/${id}`)
+      .delete(`https://todo-list-mk9g.onrender.com/todos/${id}`)
       .then(() => setTodos(todos.filter((todo) => todo._id !== id)))
       .catch((error) => console.error(error));
   };
 
   const deleteCategory = (category) => {
     axios
-      .delete(`http://localhost:8000/todos/category/${category}`)
+      .delete(`https://todo-list-mk9g.onrender.com/todos/category/${category}`)
       .then(() => setTodos(todos.filter((todo) => todo.category !== category)))
       .catch((error) => console.error(error));
   };

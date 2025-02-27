@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/todos": "http://localhost:8000",
+      "/todos": "https://todo-list-mk9g.onrender.com",
     },
   },
 });
