@@ -15,7 +15,6 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Paper,
-  Checkbox,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -25,12 +24,22 @@ const App = () => {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
   const [category, setCategory] = useState("");
+  const [newCategory, setNewCategory] = useState(""); // For adding new category
   const [priority, setPriority] = useState("low");
+  const [categories, setCategories] = useState([]);
 
+  // Fetch existing todos and categories
   useEffect(() => {
     axios
       .get("https://todo-list-mk9g.onrender.com/todos")
-      .then((response) => setTodos(response.data))
+      .then((response) => {
+        setTodos(response.data);
+        // Dynamically generate categories from todos
+        const categories = [
+          ...new Set(response.data.map((todo) => todo.category)),
+        ];
+        setCategories(categories);
+      })
       .catch((error) => console.error(error));
   }, []);
 
@@ -49,6 +58,15 @@ const App = () => {
         setPriority("low");
       })
       .catch((error) => console.error(error));
+  };
+
+  const addNewCategory = () => {
+    if (newCategory && !categories.includes(newCategory)) {
+      // Add the new category to the list of categories
+      setCategories([...categories, newCategory]);
+      setCategory(newCategory); // Set the new category in the todo form
+      setNewCategory(""); // Clear the input after adding
+    }
   };
 
   const toggleComplete = (id, completed) => {
@@ -96,6 +114,10 @@ const App = () => {
     return groups;
   }, {});
 
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
+
   return (
     <Container maxWidth="sm">
       <Typography variant="h3" gutterBottom align="center">
@@ -109,13 +131,37 @@ const App = () => {
         fullWidth
         margin="normal"
       />
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Category</InputLabel>
+        <Select value={category} onChange={handleCategoryChange}>
+          <MenuItem value="">
+            <em>Select or Add Category</em>
+          </MenuItem>
+          {categories.map((cat) => (
+            <MenuItem key={cat} value={cat}>
+              {cat}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {/* Input field to add new category */}
       <TextField
-        label="Category"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        label="New Category"
+        value={newCategory}
+        onChange={(e) => setNewCategory(e.target.value)}
         fullWidth
         margin="normal"
       />
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={addNewCategory}
+        sx={{ marginTop: "10px" }}
+      >
+        Add New Category
+      </Button>
+
       <FormControl fullWidth margin="normal">
         <InputLabel>Priority</InputLabel>
         <Select value={priority} onChange={(e) => setPriority(e.target.value)}>
