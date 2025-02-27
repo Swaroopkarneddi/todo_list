@@ -1,0 +1,54 @@
+body {
+  background-color: #f0f2f5;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.MuiFormControl-root {
+  margin-bottom: 20px;
+}
+
+.MuiButton-root {
+  margin-bottom: 20px;
+}
+
+.MuiListItem-root {
+  margin-bottom: 10px;
+}
+
+.MuiTypography-h5 {
+  color: #1976d2;
+  margin-bottom: 10px;
+}
+
+.MuiPaper-root {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.MuiIconButton-root {
+  margin-left: 10px;
+}
+
+.MuiListItemSecondaryAction {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .MuiButton-root,
+  .MuiTextField-root,
+  .MuiFormControl-root {
+    margin-bottom: 10px;
+  }
+
+  .MuiTypography-h3 {
+    font-size: 24px;
+  }
+}
